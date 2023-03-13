@@ -1,4 +1,4 @@
-# mhealth-iit
+# mhealth-iit [![DOI](https://zenodo.org/badge/613128825.svg)](https://zenodo.org/badge/latestdoi/613128825)
  
 R Shiny app to support the use of mobile health data in academic clinical trials. This tool enables one to obtain consent to share user's FitBit data with the research team.
 
