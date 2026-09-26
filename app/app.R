@@ -58,17 +58,26 @@ server <- function(input, output) {
                 icon = icon("clipboard"))
   })
   
-  accessdat <- reactive({req(input$authresponse)
-                        grabAccessInfo(input$authresponse)})
+  accessdat <- reactive({
+    req(input$authresponse)
+    result <- try(grabAccessInfo(input$authresponse), silent = TRUE)
+    if (inherits(result, "try-error")) {
+      validate(need(
+        FALSE,
+        conditionMessage(attr(result, "condition"))
+      ))
+    }
+    result
+  })
 
-  
-  # observeEvent(input$go, {
   output$accessinfo <- renderTable({
     accessdat()
   })
-  # })
+
   output$downloadData <- downloadHandler(
-    filename = paste0(accessdat()$user_id, ".csv"),
+    filename = function() {
+      paste0(accessdat()$user_id, ".csv")
+    },
     content = function(file) {
       write.csv(accessdat(), file, row.names = FALSE)
     }
